@@ -1,3 +1,5 @@
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
+
 import java.io.InputStream;
 import java.text.ParseException;
 
@@ -9,6 +11,18 @@ public class Parser {
 
     Tree REGEXP() throws ParseException {
         switch (lex.curToken()) {
+            case ALT:
+            case LPAREN:
+            case LETTER:
+                Tree Alt = ALT();
+                Tree RegexpPrime = REGEXPPrime();
+                return new Tree("REGEXP", Alt, RegexpPrime);
+            case RPAREN:
+            case END:
+                return new Tree("REGEXP");
+            case STAR:
+                throw new ParseException("* not expected " +
+                                    "at position", lex.curPos());
             default:
                 throw new AssertionError();
         }
@@ -16,6 +30,13 @@ public class Parser {
 
     Tree REGEXPPrime() throws ParseException {
         switch (lex.curToken()) {
+            case ALT:
+                lex.nextToken();
+                Tree Regexp = REGEXP();
+                return new Tree("REGEXPPrime", Regexp);
+            case RPAREN:
+            case END:
+                return new Tree("REGEXPPrime");
             default:
                 throw new AssertionError();
         }
@@ -23,6 +44,15 @@ public class Parser {
 
     Tree ALT() throws ParseException {
         switch (lex.curToken()) {
+            case LPAREN:
+            case LETTER:
+                Tree Repeat = REPEAT();
+                Tree Alt = ALT();
+                return new Tree("ALT", Repeat, Alt);
+            case ALT:
+            case RPAREN:
+            case END:
+                return new Tree("ALT");
             default:
                 throw new AssertionError();
         }
@@ -30,22 +60,27 @@ public class Parser {
 
     Tree REPEAT() throws ParseException {
         switch (lex.curToken()) {
+            case LPAREN:
+            case LETTER:
+                Tree Group = GROUP();
+                Tree MaybeStar = MAYBESTAR();
+                return new Tree("REPEAT", Group, MaybeStar);
             default:
                 throw new AssertionError();
         }
     }
 
     Tree MAYBESTAR() throws ParseException {
-        Tree group = GROUP();
         switch (lex.curToken()) {
             case STAR:
-                return new Tree("MAYBESTAR", group, new Tree("*"));
+                lex.nextToken();
+                return new Tree("MAYBESTAR", new Tree("*"));
             case LPAREN:
             case RPAREN:
             case LETTER:
             case ALT:
             case END:
-                return new Tree("MAYBESTAR", group);
+                return new Tree("MAYBESTAR");
             default:
                 throw new AssertionError();
         }
@@ -54,7 +89,17 @@ public class Parser {
     Tree GROUP() throws ParseException {
         switch (lex.curToken()) {
             case LPAREN:
-
+                lex.nextToken();
+                Tree Regexp = REGEXP();
+                if (lex.curToken() != Token.RPAREN) {
+                    throw new ParseException(") expected at position ",
+                            lex.curPos());
+                }
+                lex.nextToken();
+                return new Tree("GROUP", new Tree("("), Regexp, new Tree(")"));
+            case LETTER:
+                Tree Base = BASE();
+                return new Tree("GROUP", Base);
             default:
                 throw new AssertionError();
         }
@@ -63,6 +108,7 @@ public class Parser {
     Tree BASE() throws ParseException {
         switch (lex.curToken()) {
             case LETTER:
+                lex.nextToken();
                 return new Tree("BASE");
             default:
                 throw new AssertionError();

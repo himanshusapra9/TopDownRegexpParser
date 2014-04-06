@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="04ea2243-c156-4cd3-aa72-bb06ef66e34e" name="Default" comment="" />
+    <list default="true" id="04ea2243-c156-4cd3-aa72-bb06ef66e34e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Parser.java" afterPath="$PROJECT_DIR$/src/Parser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+    </list>
     <ignored path="TopDownRegexpParser.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -85,7 +88,7 @@
       <file leaf-file-name="Parser.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="27" selection-start="858" selection-end="858" vertical-scroll-proportion="-0.125" vertical-offset="645" max-vertical-offset="1245">
+            <state line="101" column="47" selection-start="3050" selection-end="3050" vertical-scroll-proportion="2.325" vertical-offset="120" max-vertical-offset="1935">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -537,7 +540,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="27" selection-start="858" selection-end="858" vertical-scroll-proportion="-0.125" vertical-offset="645" max-vertical-offset="1245">
+        <state line="101" column="47" selection-start="3050" selection-end="3050" vertical-scroll-proportion="2.325" vertical-offset="120" max-vertical-offset="1935">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

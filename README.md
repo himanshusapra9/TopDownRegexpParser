@@ -30,6 +30,7 @@ BASE   -> 'a'|'b'|...|'z'
 Левой рекурсии в грамматике нет, устраним правое ветвление
 
 REGEXP -> ALT REGEXP'
+        | eps
 
 REGEXP'-> '|' REGEXP  
         | eps
