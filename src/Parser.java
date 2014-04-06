@@ -54,7 +54,7 @@ public class Parser {
     Tree GROUP() throws ParseException {
         switch (lex.curToken()) {
             case LPAREN:
-                
+
             default:
                 throw new AssertionError();
         }

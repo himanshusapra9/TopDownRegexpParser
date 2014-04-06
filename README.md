@@ -49,3 +49,18 @@ BASE   -> 'a'|'b'|...|'z'
 
 * **MAYBESTAR** - возможный оператор замыкания Клини
 * **REGEXP'** - продолжение регулярного выражения
+
+|             | FIRST      |     FOLLOW    |
+|:------------|:----------:|:-------------:|
+| REGEXP      | I( a e     |   )  $        |
+| REGEXP'     | I    e     |   )  $        |
+| ALT         |  ( a e     | I )  $        |
+| REPEAT      |  ( a       | I()a $        |
+| MAYBESTAR   |     *e     | I()a $        |
+| GROUP       |  ( a       | I()a*$        |
+| BASE        |    a       | I()a*$        |
+
+e - epsilon    
+a - a..z      
+I - | (alternation)       
+
