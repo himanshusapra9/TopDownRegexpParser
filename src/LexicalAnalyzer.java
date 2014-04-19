@@ -10,6 +10,7 @@ public class LexicalAnalyzer {
     int curChar;
     int curPos;
     Token curToken;
+    String details;
 
     public LexicalAnalyzer(InputStream is) throws ParseException {
         this.is = is;
@@ -47,6 +48,7 @@ public class LexicalAnalyzer {
             nextChar();
             curToken = Token.ALT;
         } else if (curChar >= 'a' && curChar <= 'z') {
+            details = "" + curChar;
             nextChar();
             curToken = Token.LETTER;
         } else if (curChar == -1) {
@@ -63,5 +65,9 @@ public class LexicalAnalyzer {
 
     public int curPos() {
         return curPos;
+    }
+
+    public String details() {
+        return details;
     }
 }

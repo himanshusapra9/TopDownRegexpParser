@@ -8,10 +8,22 @@ public class Tree {
     String node;
 
     List<Tree> children;
+    String details;
+
+    public Tree(String node, String details, Tree... children) {
+        this.node = node;
+        this.details = details;
+        this.children = Arrays.asList(children);
+    }
 
     public Tree(String node, Tree... children) {
         this.node = node;
         this.children = Arrays.asList(children);
+    }
+
+    public Tree(String node, String details) {
+        this.node = node;
+        this.details = details;
     }
 
     public Tree(String node) {

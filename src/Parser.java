@@ -111,8 +111,9 @@ public class Parser {
     Tree BASE() throws ParseException {
         switch (lex.curToken()) {
             case LETTER:
+                Tree res = new Tree("BASE", lex.details());
                 lex.nextToken();
-                return new Tree("BASE");
+                return res;
             default:
                 throw new AssertionError();
         }
