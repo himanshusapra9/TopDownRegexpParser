@@ -19,7 +19,7 @@ public class Parser {
                 return new Tree("REGEXP", Alt, RegexpPrime);
             case RPAREN:
             case END:
-                return new Tree("REGEXP");
+                return new Tree("REGEXP", new Tree("epsilon"));
             case STAR:
                 throw new ParseException("* not expected " +
                                     "at position " + (lex.curPos() - 1), lex.curPos() - 1);
@@ -33,10 +33,10 @@ public class Parser {
             case ALT:
                 lex.nextToken();
                 Tree Regexp = REGEXP();
-                return new Tree("REGEXPPrime", Regexp);
+                return new Tree("REGEXPPrime", new Tree("|"), Regexp);
             case RPAREN:
             case END:
-                return new Tree("REGEXPPrime");
+                return new Tree("REGEXPPrime", new Tree("epsilon"));
             default:
                 throw new AssertionError();
         }
@@ -52,7 +52,7 @@ public class Parser {
             case ALT:
             case RPAREN:
             case END:
-                return new Tree("ALT");
+                return new Tree("ALT", new Tree("epsilon"));
             case STAR:
                 throw new ParseException("* not expected " +
                         "at position " + (lex.curPos() - 1), lex.curPos() - 1);
@@ -83,7 +83,7 @@ public class Parser {
             case LETTER:
             case ALT:
             case END:
-                return new Tree("MAYBESTAR");
+                return new Tree("MAYBESTAR", new Tree("epsilon"));
             default:
                 throw new AssertionError();
         }
@@ -111,7 +111,7 @@ public class Parser {
     Tree BASE() throws ParseException {
         switch (lex.curToken()) {
             case LETTER:
-                Tree res = new Tree("BASE", lex.details());
+                Tree res = new Tree("BASE", new Tree(lex.details()));
                 lex.nextToken();
                 return res;
             default:

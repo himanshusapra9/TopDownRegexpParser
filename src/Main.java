@@ -1,3 +1,4 @@
+import org.StructureGraphic.v1.DSutils;
 import sun.misc.IOUtils;
 
 import java.io.ByteArrayInputStream;
@@ -22,7 +23,9 @@ public class Main {
     static void test(String s, boolean correctTest) {
         System.err.println("test " + (numTest++) + " : " + (correctTest ? "correct" : "incorrect"));
         try {
-            parser.parse(new ByteArrayInputStream(s.getBytes("UTF-8")));
+            Tree res = parser.parse(new ByteArrayInputStream(s.getBytes("UTF-8")));
+            if (numTest == -1)
+                DSutils.show(res, 100, 30);
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {

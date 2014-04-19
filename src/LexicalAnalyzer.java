@@ -48,7 +48,7 @@ public class LexicalAnalyzer {
             nextChar();
             curToken = Token.ALT;
         } else if (curChar >= 'a' && curChar <= 'z') {
-            details = "" + curChar;
+            details = "" + (char)curChar;
             nextChar();
             curToken = Token.LETTER;
         } else if (curChar == -1) {
