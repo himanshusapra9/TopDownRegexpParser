@@ -22,7 +22,7 @@ public class Parser {
                 return new Tree("REGEXP");
             case STAR:
                 throw new ParseException("* not expected " +
-                                    "at position", lex.curPos());
+                                    "at position " + (lex.curPos() - 1), lex.curPos() - 1);
             default:
                 throw new AssertionError();
         }
@@ -53,6 +53,9 @@ public class Parser {
             case RPAREN:
             case END:
                 return new Tree("ALT");
+            case STAR:
+                throw new ParseException("* not expected " +
+                        "at position " + (lex.curPos() - 1), lex.curPos() - 1);
             default:
                 throw new AssertionError();
         }
@@ -92,8 +95,8 @@ public class Parser {
                 lex.nextToken();
                 Tree Regexp = REGEXP();
                 if (lex.curToken() != Token.RPAREN) {
-                    throw new ParseException(") expected at position ",
-                            lex.curPos());
+                    throw new ParseException(") expected at position " + (lex.curPos() - 1),
+                            lex.curPos() - 1);
                 }
                 lex.nextToken();
                 return new Tree("GROUP", new Tree("("), Regexp, new Tree(")"));
@@ -118,6 +121,9 @@ public class Parser {
     Tree parse(InputStream is) throws ParseException {
         lex = new LexicalAnalyzer(is);
         lex.nextToken();
-        return REGEXP();
+        Tree res = REGEXP();
+        if (lex.curToken() != Token.END)
+            throw new ParseException("expected end of expression, but found " + lex.curToken(), lex.curPos());
+        return res;
     }
 }

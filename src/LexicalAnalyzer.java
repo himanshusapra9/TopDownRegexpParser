@@ -50,6 +50,7 @@ public class LexicalAnalyzer {
             nextChar();
             curToken = Token.LETTER;
         } else if (curChar == -1) {
+            curPos++;
             curToken = Token.END;
         } else {
             throw new ParseException("Illegal character " + (char) curChar, curPos);
