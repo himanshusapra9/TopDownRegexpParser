@@ -24,6 +24,7 @@ public class LexicalAnalyzer {
 
     private void nextChar() throws ParseException {
         curPos++;
+        curChar = -1;
         try {
             curChar = is.read();
         } catch (IOException e) {
@@ -35,7 +36,13 @@ public class LexicalAnalyzer {
         while (isBlank(curChar)) {
             nextChar();
         }
-        if (curChar == '(') {
+        if (curChar == '+') {
+            nextChar();
+            curToken = Token.PLUS;
+        } else if (curChar == '?') {
+            nextChar();
+            curToken = Token.QUEST;
+        } else if (curChar == '(') {
             nextChar();
             curToken = Token.LPAREN;
         } else if (curChar == ')') {

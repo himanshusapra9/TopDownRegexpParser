@@ -21,7 +21,9 @@ public class Parser {
             case END:
                 return new Tree("REGEXP", new Tree("epsilon"));
             case STAR:
-                throw new ParseException("* not expected " +
+            case PLUS:
+            case QUEST:
+                throw new ParseException(lex.curToken() + " not expected " +
                                     "at position " + (lex.curPos() - 1), lex.curPos() - 1);
             default:
                 throw new AssertionError();
@@ -54,7 +56,9 @@ public class Parser {
             case END:
                 return new Tree("ALT", new Tree("epsilon"));
             case STAR:
-                throw new ParseException("* not expected " +
+            case PLUS:
+            case QUEST:
+                throw new ParseException(lex.curToken() + " not expected " +
                         "at position " + (lex.curPos() - 1), lex.curPos() - 1);
             default:
                 throw new AssertionError();
@@ -66,24 +70,30 @@ public class Parser {
             case LPAREN:
             case LETTER:
                 Tree Group = GROUP();
-                Tree MaybeStar = MAYBESTAR();
-                return new Tree("REPEAT", Group, MaybeStar);
+                Tree MaybeModif = MAYBEMODIF();
+                return new Tree("REPEAT", Group, MaybeModif);
             default:
                 throw new AssertionError();
         }
     }
 
-    Tree MAYBESTAR() throws ParseException {
+    Tree MAYBEMODIF() throws ParseException {
         switch (lex.curToken()) {
             case STAR:
                 lex.nextToken();
-                return new Tree("MAYBESTAR", new Tree("*"));
+                return new Tree("MAYBEMODIF", new Tree("*"));
+            case PLUS:
+                lex.nextToken();
+                return new Tree("MAYBEMODIF", new Tree("+"));
+            case QUEST:
+                lex.nextToken();
+                return new Tree("MAYBEMODIF", new Tree("?"));
             case LPAREN:
             case RPAREN:
             case LETTER:
             case ALT:
             case END:
-                return new Tree("MAYBESTAR", new Tree("epsilon"));
+                return new Tree("MAYBEMODIF", new Tree("epsilon"));
             default:
                 throw new AssertionError();
         }

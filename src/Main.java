@@ -24,7 +24,7 @@ public class Main {
         System.err.println("test " + (numTest++) + " : " + (correctTest ? "correct" : "incorrect"));
         try {
             Tree res = parser.parse(new ByteArrayInputStream(s.getBytes("UTF-8")));
-            if (numTest == -1)
+            if (numTest == 3)
                 DSutils.show(res, 100, 30);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -37,7 +37,7 @@ public class Main {
 
     public static void main(String[] args) {
         parser = new Parser();
-        correct("");
+        /*correct("");
         correct("||||");
         incorret("(*)");
         incorret("*");
@@ -63,6 +63,12 @@ public class Main {
         correct("((ab)*)*");
         correct("ab|c|d*");
         correct("((abc*b|a)*ab(aa|b*)b)*");
+        */
+        correct("a?");
+        correct("(aba)+|c?");
+        correct("(a?a+)?");
+        incorret("??");
+        incorret("a?+");
     }
 
     static Parser parser;
